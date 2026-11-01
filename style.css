@@ -141,9 +141,9 @@ html, body {
   width: calc(var(--w) * .14);
   height: calc(var(--w) * .14);
   border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, #e0626d 0%, #b8384a 45%, #7c1f2f 100%);
+  background: radial-gradient(circle at 34% 30%, #f59a7c 0%, #d4583f 45%, #8f2f22 100%);
   box-shadow:
-    0 calc(var(--w) * .012) calc(var(--w) * .03) rgba(40, 0, 10, .45),
+    0 calc(var(--w) * .012) calc(var(--w) * .03) rgba(30, 10, 5, .45),
     inset 0 0 0 calc(var(--w) * .012) rgba(255, 255, 255, .1);
   animation: pulse 2.4s ease-in-out infinite;
 }
@@ -153,7 +153,7 @@ html, body {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 206, 214, .8);
+  border: 1.5px solid rgba(255, 214, 196, .85);
   animation: ring 2.4s ease-out infinite;
 }
 
@@ -231,7 +231,7 @@ html, body {
   top: 100%;
   position: absolute;
   justify-content: flex-start;
-  padding-top: calc(var(--L) * .1);
+  padding-top: calc(var(--L) * .07);
   background:
     linear-gradient(to bottom, rgba(70, 40, 50, .12), transparent 6%),
     linear-gradient(#fbf2e7, #f3e5d5);
@@ -268,8 +268,18 @@ html, body {
 }
 
 .name  { --ls: .14em; font-size: calc(var(--L) * .105); }
-.time  { --ls: .06em; font-size: calc(var(--L) * .17); }
-.place { --ls: .3em;  font-size: calc(var(--L) * .1); margin-top: calc(var(--L) * .05); }
+.time  { --ls: .06em; font-size: calc(var(--L) * .15); }
+.place {
+  --ls: 0;
+  margin-top: calc(var(--L) * .045);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--L) * .02);
+}
+
+.venue { font-size: calc(var(--L) * .052); letter-spacing: .18em; padding-left: .18em; }
+.area  { font-size: calc(var(--L) * .1);   letter-spacing: .3em;  padding-left: .3em; }
 
 /* ---------- 開封シーケンス ---------- */
 
