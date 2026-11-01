@@ -9,7 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%89%EF%B8%8F%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500&amp;text=%E3%81%97%E3%82%88%20%E6%A7%9814%3A00YASUMI%20LAB%20TOKYO%E6%B1%A0%E8%A2%8B&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500&amp;family=Zen+Kaku+Gothic+New:wght@900&amp;text=%E3%81%97%E3%82%88%20%E6%A7%98%E6%96%B0%E5%AE%BF%E9%A7%85%E3%81%8C%E7%88%86%E7%A0%B4%E3%81%95%E3%82%8C%E3%81%9D%E3%81%86%E3%81%A0%E4%BB%8A%E3%81%99%E3%81%90%E8%8D%B7%E7%89%A9%E3%82%92%E5%8F%96%E3%81%A3%E3%81%A6%E3%81%93%E3%81%AA%E3%81%84%E3%81%A8%E5%8D%B1%E3%83%AF%E3%82%B7%E3%83%B3%E3%83%88%E3%83%9B%E3%83%86%E3%83%AB%E6%9C%AC%E9%A4%A8%E3%81%B8%E5%90%91%E3%81%8B%E3%81%88&amp;display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,52 +44,72 @@
 </svg>
 
 <main class="stage" id="stage">
-  <div class="halo"></div>
-  <div class="sparkles" id="sparkles-bg" aria-hidden="true"></div>
+  <div class="shake">
+    <div class="halo"></div>
+    <div class="sparkles" id="sparkles-bg" aria-hidden="true"></div>
 
-  <div class="float">
-    <div class="group" id="group">
+    <div class="float" id="float">
+      <div class="group" id="group">
 
-      <svg class="env-back" viewBox="0 0 300 204" preserveAspectRatio="none" aria-hidden="true">
-        <rect width="300" height="204" fill="url(#g-back)"/>
-      </svg>
+        <svg class="env-back" viewBox="0 0 300 204" preserveAspectRatio="none" aria-hidden="true">
+          <rect width="300" height="204" fill="url(#g-back)"/>
+        </svg>
 
-      <svg class="flap-in" viewBox="0 0 300 112" preserveAspectRatio="none" aria-hidden="true">
-        <polygon points="0,112 300,112 150,0" fill="url(#g-flap-in)"/>
-      </svg>
+        <svg class="flap-in" viewBox="0 0 300 112" preserveAspectRatio="none" aria-hidden="true">
+          <polygon points="0,112 300,112 150,0" fill="url(#g-flap-in)"/>
+        </svg>
 
-      <div class="letter">
-        <div class="letter-settle">
-          <div class="panel panel-top">
+        <div class="letter">
+          <div class="panel">
             <p class="line name">しよ 様</p>
           </div>
-          <div class="panel panel-bottom">
-            <p class="line time">14:00</p>
-            <p class="line place"><span class="venue">YASUMI LAB TOKYO</span><span class="area">池袋</span></p>
-          </div>
         </div>
-      </div>
 
-      <svg class="env-front" viewBox="0 0 300 204" preserveAspectRatio="none" aria-hidden="true">
-        <g stroke="rgba(55,95,80,.2)" stroke-width="1" stroke-linejoin="round" vector-effect="non-scaling-stroke">
-          <polygon points="0,0 150,112 0,204" fill="url(#g-side-l)"/>
-          <polygon points="300,0 150,112 300,204" fill="url(#g-side-r)"/>
-          <polygon points="0,204 150,112 300,204" fill="url(#g-bottom)"/>
-        </g>
-      </svg>
-
-      <div class="flap-out">
-        <svg viewBox="0 0 300 112" preserveAspectRatio="none" aria-hidden="true">
-          <polygon points="0,0 300,0 150,112" fill="url(#g-flap)" stroke="rgba(55,95,80,.26)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+        <svg class="env-front" viewBox="0 0 300 204" preserveAspectRatio="none" aria-hidden="true">
+          <g stroke="rgba(55,95,80,.2)" stroke-width="1" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+            <polygon points="0,0 150,112 0,204" fill="url(#g-side-l)"/>
+            <polygon points="300,0 150,112 300,204" fill="url(#g-side-r)"/>
+            <polygon points="0,204 150,112 300,204" fill="url(#g-bottom)"/>
+          </g>
         </svg>
-        <span class="seal"></span>
-      </div>
 
-      <button class="hit" id="hit" type="button" aria-label="開く"></button>
+        <div class="flap-out">
+          <svg viewBox="0 0 300 112" preserveAspectRatio="none" aria-hidden="true">
+            <polygon points="0,0 300,0 150,112" fill="url(#g-flap)" stroke="rgba(55,95,80,.26)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <span class="seal"></span>
+        </div>
+
+        <button class="hit" id="hit" type="button" aria-label="開く"></button>
+      </div>
+    </div>
+
+    <div class="sparkles" id="sparkles-fx" aria-hidden="true"></div>
+
+    <div class="alarm"></div>
+    <div class="blood"></div>
+    <div class="shards" id="shards" aria-hidden="true"></div>
+    <div class="flash"></div>
+
+    <svg class="warn" viewBox="0 0 120 108" aria-hidden="true">
+      <path d="M60 6 L114 100 H6 Z" fill="#ffd23f" stroke="#141414" stroke-width="7" stroke-linejoin="round"/>
+      <rect x="54" y="38" width="12" height="34" rx="5" fill="#141414"/>
+      <circle cx="60" cy="86" r="7" fill="#141414"/>
+    </svg>
+
+    <div class="msg">
+      <p class="s m1">新宿駅が爆破されそうだ</p>
+      <p class="s m2">今すぐ荷物を取ってこないと危ない</p>
+      <div class="m3">
+        <p class="s a">今すぐ荷物を取って</p>
+        <p class="s b">新宿ワシントンホテル本館へ</p>
+        <p class="s c">向かえ</p>
+      </div>
     </div>
   </div>
 
-  <div class="sparkles" id="sparkles-fx" aria-hidden="true"></div>
+  <div class="stripe stripe-top" aria-hidden="true"></div>
+  <div class="stripe stripe-bottom" aria-hidden="true"></div>
 </main>
 
 <script src="script.js"></script>

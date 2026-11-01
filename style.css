@@ -1,11 +1,12 @@
 :root {
   --w: min(84vw, 440px, 44vh);
-  --L: calc(var(--w) * 1.12);
+  --tw: min(88vw, 520px);
   --persp: 900px;
   --ink: #3a2a38;
   --gold: rgba(196, 156, 84, .6);
   --out: cubic-bezier(.16, 1, .3, 1);
   --hinge: cubic-bezier(.65, 0, .35, 1);
+  --sans: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
 }
 
 @supports (height: 1dvh) {
@@ -32,6 +33,8 @@ html, body {
   font-family: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
 }
 
+.shake { position: absolute; inset: 0; }
+
 /* ---------- 背景 ---------- */
 
 .halo {
@@ -50,6 +53,7 @@ html, body {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  transition: opacity .3s;
 }
 
 .sparkle {
@@ -182,18 +186,10 @@ html, body {
 
 .letter {
   z-index: 3;
-  left: calc((var(--w) - var(--L) * .9) / 2);
-  top: calc(var(--w) * .65 - var(--L) * .6);
-  width: calc(var(--L) * .9);
-  height: calc(var(--L) * .6);
-}
-
-.letter-settle {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-origin: 50% 100%;
-  transform: scale(.8929);
+  left: calc(var(--w) * .05);
+  top: calc(var(--w) * .05);
+  width: calc(var(--w) * .9);
+  height: calc(var(--w) * .6);
 }
 
 .panel {
@@ -201,59 +197,17 @@ html, body {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  background: linear-gradient(#fffdf9, #f8eddf);
+  box-shadow: 0 0 calc(var(--w) * .1) rgba(0, 0, 0, .4);
 }
 
 .panel::before {
   content: "";
   position: absolute;
-  pointer-events: none;
+  inset: calc(var(--w) * .035);
   border: 1px solid var(--gold);
-}
-
-.panel-top {
-  justify-content: center;
-  background:
-    linear-gradient(to top, rgba(70, 40, 50, .07), transparent 5%),
-    linear-gradient(#fffdf9, #fbf2e7);
-  box-shadow: 0 0 calc(var(--L) * .1) rgba(0, 0, 0, .4);
-  clip-path: inset(-200px -200px 0 -200px);
-}
-
-.panel-top::before {
-  inset: calc(var(--L) * .035) calc(var(--L) * .035) 0;
-  border-bottom: 0;
-}
-
-.panel-bottom {
-  left: 0;
-  top: 100%;
-  position: absolute;
-  justify-content: flex-start;
-  padding-top: calc(var(--L) * .07);
-  background:
-    linear-gradient(to bottom, rgba(70, 40, 50, .12), transparent 6%),
-    linear-gradient(#fbf2e7, #f3e5d5);
-  box-shadow: 0 0 calc(var(--L) * .1) rgba(0, 0, 0, .4);
-  clip-path: inset(0 -200px -200px -200px);
-  transform-origin: 50% 0;
-  transform: perspective(var(--persp)) rotateX(-180deg);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-.panel-bottom::before {
-  inset: 0 calc(var(--L) * .035) calc(var(--L) * .035);
-  border-top: 0;
-}
-
-.panel-bottom::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(45, 25, 60, .6), rgba(45, 25, 60, .12));
-  opacity: 0;
   pointer-events: none;
 }
 
@@ -263,23 +217,115 @@ html, body {
   white-space: nowrap;
   font-weight: 500;
   line-height: 1.2;
+}
+
+.name {
+  --ls: .14em;
+  font-size: calc(var(--w) * .13);
   letter-spacing: var(--ls);
   padding-left: var(--ls);
 }
 
-.name  { --ls: .14em; font-size: calc(var(--L) * .105); }
-.time  { --ls: .06em; font-size: calc(var(--L) * .15); }
-.place {
-  --ls: 0;
-  margin-top: calc(var(--L) * .045);
+/* ---------- 警報 ---------- */
+
+.alarm, .blood, .flash, .shards {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.alarm {
+  opacity: 0;
+  background: radial-gradient(130% 100% at 50% 50%, #ff2b2b 0%, #c60b14 55%, #6e0008 100%);
+}
+
+.blood {
+  opacity: 0;
+  background: radial-gradient(100% 70% at 50% 45%, #6b0b16 0%, #35060e 55%, #12020a 100%);
+}
+
+.blood::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(70% 45% at 50% 45%, rgba(255, 40, 40, .4), transparent 70%);
+}
+
+.flash {
+  opacity: 0;
+  background: #ffe6dc;
+}
+
+.warn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(42vw, 220px);
+  translate: -50% -50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stripe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(22px, 4.2vh, 38px);
+  background: linear-gradient(135deg, #ffd23f 25%, #141414 25% 50%, #ffd23f 50% 75%, #141414 75%) 0 0 / 38px 38px;
+  pointer-events: none;
+  translate: 0 var(--from);
+}
+
+.stripe-top    { top: 0;    --from: -110%; }
+.stripe-bottom { bottom: 0; --from: 110%; }
+
+.shard {
+  position: absolute;
+  will-change: transform;
+  animation: shard-fly var(--t) var(--d) linear both;
+}
+
+/* ---------- メッセージ ---------- */
+
+.msg {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(var(--L) * .02);
+  justify-content: center;
+  gap: calc(var(--tw) * .05);
+  padding: 0 6vw;
+  text-align: center;
+  pointer-events: none;
+  font-family: var(--sans);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 .45em rgba(255, 70, 70, .85), 0 .06em 0 rgba(0, 0, 0, .45);
 }
 
-.venue { font-size: calc(var(--L) * .052); letter-spacing: .18em; padding-left: .18em; }
-.area  { font-size: calc(var(--L) * .1);   letter-spacing: .3em;  padding-left: .3em; }
+.s {
+  opacity: 0;
+  white-space: nowrap;
+  letter-spacing: .04em;
+  line-height: 1.25;
+}
+
+.m1 { font-size: calc(var(--tw) * .08); }
+.m2 { font-size: calc(var(--tw) * .056); }
+
+.m3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .25em;
+  margin-top: calc(var(--tw) * .04);
+  font-size: calc(var(--tw) * .068);
+}
+
+.m3 .b { color: #ffd23f; }
+.m3 .c { font-size: 2.1em; letter-spacing: .12em; padding-left: .12em; }
 
 /* ---------- 開封シーケンス ---------- */
 
@@ -288,31 +334,51 @@ html, body {
 .is-open .seal { animation: seal-break .55s ease-out both; }
 .is-open .seal::before { animation: none; opacity: 0; }
 
-.is-open .flap-out {
+.is-open .flap-out { animation: flap-out .95s .2s var(--hinge) both; }
+.is-open .flap-in  { animation: flap-in .95s .2s var(--hinge) both; }
+.is-open .letter   { animation: rise 1.25s .9s cubic-bezier(.22, .8, .2, 1) both; }
+.is-open .name     { animation: ink 1.3s 1.5s var(--out) both; }
+
+/* ---------- 警報 ---------- */
+
+.alert .sparkles { opacity: 0; }
+
+.alert .shake { animation: quake .42s linear infinite; }
+.alert .alarm { animation: alarm-flash .72s linear infinite; }
+
+.alert .warn {
   animation:
-    flap-out .95s .2s var(--hinge) both,
-    leave 1.6s 2.25s ease-in both;
+    warn-pop .5s .05s cubic-bezier(.2, 1.5, .4, 1) both,
+    warn-pulse .72s .55s ease-in-out infinite;
 }
 
-.is-open .flap-in {
+.alert .stripe {
   animation:
-    flap-in .95s .2s var(--hinge) both,
-    leave 1.6s 2.25s ease-in both;
+    stripe-in .4s var(--out) both,
+    stripe-run .6s linear infinite;
 }
 
-.is-open .env-back,
-.is-open .env-front { animation: leave 1.6s 2.25s ease-in both; }
+/* ---------- 破裂 → 文言 ---------- */
 
-.is-open .letter        { animation: rise 1.25s .9s cubic-bezier(.22, .8, .2, 1) both; }
-.is-open .letter-settle { animation: settle 1.5s 2.25s cubic-bezier(.45, 0, .2, 1) both; }
-.is-open .panel-bottom  { animation: unfold 1.4s 2.3s cubic-bezier(.3, .6, .2, 1) both; }
-.is-open .panel-bottom::after { animation: shade 1.4s 2.3s ease-out both; }
+.torn .float { visibility: hidden; }
 
-.is-open .halo  { animation: halo-glow 2.4s 2.2s ease-out both; }
+.torn .shake {
+  animation:
+    quake-hard .3s linear 6,
+    tremor 1.6s 1.8s ease-in-out infinite;
+}
 
-.is-open .name  { animation: ink 1.3s 1.5s var(--out) both; }
-.is-open .time  { animation: ink 1.3s 3.05s var(--out) both; }
-.is-open .place { animation: ink 1.3s 3.5s var(--out) both; }
+.torn .alarm { opacity: 1; animation: none; }
+.torn .flash { animation: flash-out .6s ease-out both; }
+.torn .blood { animation: blood-in 1s .1s ease-out both; }
+.torn .blood::after { animation: breathe 2.2s 1s ease-in-out infinite; }
+.torn .warn  { animation: warn-out .35s ease-in both; }
+
+.torn .m1 { animation: slam .6s .8s both; }
+.torn .m2 { animation: slam .6s 2.2s both; }
+.torn .a  { animation: slam .6s 3.6s both; }
+.torn .b  { animation: slam .6s 4.2s both; }
+.torn .c  { animation: slam .7s 4.9s both, throb 1.1s 5.7s ease-in-out infinite; }
 
 /* ---------- keyframes ---------- */
 
@@ -332,7 +398,7 @@ html, body {
 }
 
 @keyframes ring {
-  0%       { transform: scale(1); opacity: .7; }
+  0%        { transform: scale(1); opacity: .7; }
   70%, 100% { transform: scale(2.2); opacity: 0; }
 }
 
@@ -359,34 +425,12 @@ html, body {
   100% { transform: translateY(calc(var(--w) * -.75)) rotate(0deg); z-index: 6; }
 }
 
-@keyframes settle {
-  from { transform: translateY(0) scale(.8929); }
-  to   { transform: translateY(calc(var(--w) * .44)) scale(1); }
-}
-
-@keyframes unfold {
-  from { transform: perspective(var(--persp)) rotateX(-180deg); }
-  to   { transform: perspective(var(--persp)) rotateX(0deg); }
-}
-
-@keyframes shade {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-
-@keyframes leave {
-  0%   { translate: 0 0; opacity: 1; }
-  30%  { opacity: 1; }
-  100% { translate: 0 calc(var(--w) * 1.5); opacity: 0; }
-}
-
 @keyframes ink {
   from { opacity: 0; transform: translateY(.5em) scale(1.05); filter: blur(8px); }
   to   { opacity: 1; transform: none; filter: none; }
 }
 
-@keyframes halo-in   { from { opacity: 0; } to { opacity: .7; } }
-@keyframes halo-glow { from { opacity: .7; } to { opacity: 1; } }
+@keyframes halo-in { from { opacity: 0; } to { opacity: .7; } }
 
 @keyframes twinkle {
   0%, 100% { opacity: 0; transform: scale(.2) rotate(0deg); }
@@ -397,6 +441,99 @@ html, body {
   0%   { opacity: 0; transform: translate(0, 0) scale(0) rotate(0deg); }
   20%  { opacity: 1; }
   100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.2) rotate(180deg); }
+}
+
+@keyframes alarm-flash {
+  0%   { opacity: .15; }
+  10%  { opacity: .95; }
+  55%  { opacity: .4; }
+  100% { opacity: .15; }
+}
+
+@keyframes quake {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1.06); }
+  12%  { transform: translate(-1.6%, .9%) rotate(-.5deg) scale(1.06); }
+  25%  { transform: translate(1.4%, -.8%) rotate(.45deg) scale(1.06); }
+  37%  { transform: translate(-.9%, -1.2%) rotate(.3deg) scale(1.06); }
+  50%  { transform: translate(1.7%, .7%) rotate(-.4deg) scale(1.06); }
+  62%  { transform: translate(-1.3%, 1.1%) rotate(.5deg) scale(1.06); }
+  75%  { transform: translate(.8%, -1%) rotate(-.3deg) scale(1.06); }
+  88%  { transform: translate(-1.1%, .5%) rotate(.35deg) scale(1.06); }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1.06); }
+}
+
+@keyframes quake-hard {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1.06); }
+  20%  { transform: translate(-3%, 1.8%) rotate(-1deg) scale(1.06); }
+  40%  { transform: translate(2.8%, -1.6%) rotate(.9deg) scale(1.06); }
+  60%  { transform: translate(-2.2%, -2%) rotate(.7deg) scale(1.06); }
+  80%  { transform: translate(2.4%, 1.4%) rotate(-.8deg) scale(1.06); }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1.06); }
+}
+
+@keyframes tremor {
+  0%, 100% { transform: translate(0, 0) scale(1.06); }
+  25%      { transform: translate(.18%, -.12%) scale(1.06); }
+  50%      { transform: translate(-.15%, .14%) scale(1.06); }
+  75%      { transform: translate(.12%, .1%) scale(1.06); }
+}
+
+@keyframes warn-pop {
+  from { opacity: 0; transform: scale(0) rotate(-24deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes warn-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.12); }
+}
+
+@keyframes warn-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(3); }
+}
+
+@keyframes stripe-in  { from { translate: 0 var(--from); } to { translate: 0 0; } }
+@keyframes stripe-run { to { background-position: 38px 0; } }
+
+@keyframes flash-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes blood-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes breathe   { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+
+@keyframes shard-fly {
+  0% {
+    transform: translate(0, 0) rotate(0deg) rotateX(0deg) rotateY(0deg);
+    opacity: 1;
+  }
+  8% {
+    transform: translate(calc(var(--dx) * .05), calc(var(--dy) * .05)) rotate(calc(var(--rot) * .05)) rotateX(0deg) rotateY(0deg);
+  }
+  14% {
+    transform: translate(calc(var(--dx) * -.01), calc(var(--dy) * -.01)) rotate(calc(var(--rot) * -.02)) rotateX(0deg) rotateY(0deg);
+    animation-timing-function: cubic-bezier(.15, .75, .35, 1);
+  }
+  45% {
+    transform: translate(calc(var(--dx) * .7), calc(var(--dy) * .7 - var(--lift))) rotate(calc(var(--rot) * .55)) rotateX(calc(var(--rx) * .5)) rotateY(calc(var(--ry) * .5));
+    animation-timing-function: cubic-bezier(.5, 0, 1, .85);
+  }
+  80% { opacity: 1; }
+  100% {
+    transform: translate(var(--dx), calc(var(--dy) + var(--fall))) rotate(var(--rot)) rotateX(var(--rx)) rotateY(var(--ry));
+    opacity: 0;
+  }
+}
+
+@keyframes slam {
+  0%   { opacity: 0; transform: scale(2.2); filter: blur(10px); }
+  55%  { opacity: 1; transform: scale(.94); filter: none; }
+  70%  { transform: translateX(-1.4%) skewX(-6deg); }
+  82%  { transform: translateX(1.1%) skewX(4deg); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes throb {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.07); }
 }
 
 @media (prefers-reduced-motion: reduce) {
